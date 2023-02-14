@@ -7,7 +7,8 @@ public class AirplaneController : MonoBehaviour
     GameObject airplane;
     Rigidbody rb;
     float rotateSpeed, rotateRate, pitchRate, forwardSpeed;
-    //float speed;
+    public bool lose;
+    public float score; //score is held for the UI to display
 
     // Start is called before the first frame update
     void Start()
@@ -17,6 +18,8 @@ public class AirplaneController : MonoBehaviour
         rotateRate = 0.01f;
         pitchRate = 0.03f;
         forwardSpeed = 1f;
+        lose = false;
+        score = 0;
         //rb = airplane.GetComponent<Rigidbody>();
         //speed = 100.0f;
     }
@@ -46,6 +49,28 @@ public class AirplaneController : MonoBehaviour
         else if(Input.GetKey(KeyCode.DownArrow))
         {
             airplane.transform.Rotate(-pitchRate, 0, 0);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // 'other' is the name of the collider that just collided with the object
+        // that this script ("PlayerController") is attached to. So the if statment
+        // below checks to see that that object has the tag "coin". Remember that
+        // the tags for GameObjects are assigned in the top left area of the
+        // inspector when you select the obect.
+        if (other.CompareTag("coin"))
+        {
+            Destroy(other.gameObject);
+            score += 1;
+        }
+        else if (other.CompareTag("danger"))
+        {
+            //Destroy(other.gameObject);
+            score -= 1;
+            airplane.GetComponent<Rigidbody>().AddForce(transform.up * 500);
+            airplane.GetComponent<Rigidbody>().AddTorque(transform.forward * 500);
+            lose = true;
         }
     }
 }
