@@ -6,11 +6,11 @@ using TMPro;
 
 public class UI : MonoBehaviour
 {
-
+    //public Material warningText;
     public PlayerController pc; //ui must see the player controller to display the score
     public TextMeshProUGUI scoreDisplay, winDisplay;
-    public TextMeshProUGUI timerDisplay;
-    //[SerializeField] Text timerDisplay;
+    //public TextMeshProUGUI timerDisplay;
+    [SerializeField] Text timerDisplay;
 
     private float timer = 0f; 
     public float timerDuration = 120f; //setting the time
@@ -26,13 +26,16 @@ public class UI : MonoBehaviour
     void Update()
     {
         timer -= 1 * Time.deltaTime;
-        //timerDisplay.text = timer.ToString ("0");
+        timerDisplay.text = timer.ToString ("0");
 
-        if (timer <= 0)
-        {
-            timer = 0;
-            winDisplay.text = "Time's Up! Game Over";
-        }
+        //if (timer <= 25)
+        //{
+            if (timer <= 0)
+            {
+                timer = 0;
+                winDisplay.text = "Time's Up! Game Over";
+            }
+        //}
 
         if (GameObject.FindGameObjectsWithTag("coin").Length <= 0)
         {
