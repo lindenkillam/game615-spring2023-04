@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AirplaneController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     GameObject airplane;
     Rigidbody rb;
@@ -16,7 +16,7 @@ public class AirplaneController : MonoBehaviour
         airplane = GameObject.Find("Airplane");
         rotateSpeed = 0f;
         rotateRate = 0.01f;
-        pitchRate = 0.03f;
+        pitchRate = 0.01f;
         forwardSpeed = 1f;
         lose = false;
         score = 0;

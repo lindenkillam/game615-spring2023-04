@@ -7,7 +7,7 @@ using TMPro;
 public class UI : MonoBehaviour
 {
 
-    public AirplaneController ac; //ui must see the player controller to display the score
+    public PlayerController pc; //ui must see the player controller to display the score
     public TextMeshProUGUI scoreDisplay, winDisplay;
     public TextMeshProUGUI timerDisplay;
     //[SerializeField] Text timerDisplay;
@@ -26,7 +26,7 @@ public class UI : MonoBehaviour
     void Update()
     {
         timer -= 1 * Time.deltaTime;
-        timerDisplay.text = timer.ToString ("0");
+        //timerDisplay.text = timer.ToString ("0");
 
         if (timer <= 0)
         {
@@ -39,6 +39,6 @@ public class UI : MonoBehaviour
             winDisplay.text = "You found all the coins! You win!";
         }
 
-        scoreDisplay.text = "Score: " + ac.score;
+        scoreDisplay.text = "Score: " + pc.score;
     }
 }
