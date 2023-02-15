@@ -5,20 +5,22 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     GameObject airplane;
-    Rigidbody rb;
-    float rotateSpeed, rotateRate, pitchRate, forwardSpeed;
-    public bool lose;
+    //Rigidbody rb;
+    public float forwardSpeed, rotateSpeed;
+    public bool crashed, allCoinsFound;
     public float score; //score is held for the UI to display
+
+    private float rotateRate, pitchRate;
 
     // Start is called before the first frame update
     void Start()
     {
         airplane = GameObject.Find("Airplane");
         rotateSpeed = 0f;
-        rotateRate = 0.01f;
-        pitchRate = 0.01f;
-        forwardSpeed = 1f;
-        lose = false;
+        rotateRate = 0.15f;
+        pitchRate = 0.15f;
+        forwardSpeed = 15f;
+        crashed = false;
         score = 0;
         //rb = airplane.GetComponent<Rigidbody>();
         //speed = 100.0f;
@@ -50,6 +52,13 @@ public class PlayerController : MonoBehaviour
         {
             airplane.transform.Rotate(-pitchRate, 0, 0);
         }
+
+        if (GameObject.FindGameObjectsWithTag("coin").Length <= 0)
+        {
+            forwardSpeed = 0f;
+            rotateSpeed = 0f;
+            allCoinsFound = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,10 +76,12 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("danger"))
         {
             //Destroy(other.gameObject);
-            score -= 1;
-            airplane.GetComponent<Rigidbody>().AddForce(transform.up * 500);
-            airplane.GetComponent<Rigidbody>().AddTorque(transform.forward * 500);
-            lose = true;
+            //airplane.GetComponent<Rigidbody>().AddForce(transform.up * 500);
+            //airplane.GetComponent<Rigidbody>().AddTorque(transform.forward * 500);
+            forwardSpeed = 0f;
+            rotateSpeed = 0f;
+            airplane.transform.position = new Vector3(0, 10, 0);
+            crashed = true;
         }
     }
 }

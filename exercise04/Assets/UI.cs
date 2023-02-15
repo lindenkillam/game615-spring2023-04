@@ -12,33 +12,39 @@ public class UI : MonoBehaviour
     //public TextMeshProUGUI timerDisplay;
     [SerializeField] Text timerDisplay;
 
-    private float timer = 0f; 
+    private float timer = 0f;
+    private bool holdTimer = false; 
     public float timerDuration = 120f; //setting the time
 
     void Start()
     {
         timer = timerDuration;
-        //scoreDisplay.text = "";
-        //timerDisplay = "";
-        //winDisplay.text = "";
     }
 
     void Update()
     {
-        timer -= 1 * Time.deltaTime;
+        if(!holdTimer)
+        {
+            timer -= Time.deltaTime;
+        }
         timerDisplay.text = timer.ToString ("0");
 
-        //if (timer <= 25)
-        //{
-            if (timer <= 0)
-            {
-                timer = 0;
-                winDisplay.text = "Time's Up! Game Over";
-            }
-        //}
-
-        if (GameObject.FindGameObjectsWithTag("coin").Length <= 0)
+        if (timer <= 0 && !pc.allCoinsFound)
         {
+            timer = 0;
+            holdTimer = true;
+            pc.forwardSpeed = 0f;
+            pc.rotateSpeed = 0f;
+            winDisplay.text = "Time's Up! Game Over";
+        }
+        else if (pc.crashed)
+        {
+            holdTimer = true;
+            winDisplay.text = "You crashed... Game Over.";
+        }
+        else if (pc.allCoinsFound)
+        {
+            holdTimer = true;
             winDisplay.text = "You found all the coins! You win!";
         }
 
